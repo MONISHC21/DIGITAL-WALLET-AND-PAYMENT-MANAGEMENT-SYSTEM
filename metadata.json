@@ -1,0 +1,6 @@
+{
+  "name": "DigiWallet",
+  "description": "Smart Digital Wallet, Payment Management, Expense Tracking, and Financial Analytics",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,170 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidUserProfile(data, uid) {
+      return data.userId is string && data.userId == uid &&
+             data.displayName is string && data.displayName.size() >= 1 && data.displayName.size() <= 80 &&
+             data.email is string && data.email.size() >= 3 && data.email.size() <= 120 &&
+             data.upiHandle is string && data.upiHandle.size() >= 3 && data.upiHandle.size() <= 80 &&
+             data.demoBalancePaise is int && data.demoBalancePaise >= 0 && data.demoBalancePaise <= 10000000000 &&
+             data.currency is string && data.currency == 'INR' &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function isValidTransaction(data, uid) {
+      return data.ownerId is string && data.ownerId == uid &&
+             data.amountPaise is int && data.amountPaise > 0 && data.amountPaise <= 1000000000 &&
+             data.currency is string && data.currency == 'INR' &&
+             data.transactionType is string && (data.transactionType == 'CREDIT' || data.transactionType == 'DEBIT' || data.transactionType == 'REFUND') &&
+             data.category is string && data.category.size() >= 1 && data.category.size() <= 40 &&
+             data.title is string && data.title.size() >= 1 && data.title.size() <= 100 &&
+             data.counterparty is string && data.counterparty.size() >= 1 && data.counterparty.size() <= 100 &&
+             (!('description' in data) || data.description == null || (data.description is string && data.description.size() <= 200)) &&
+             data.paymentMethod is string && data.paymentMethod.size() >= 1 && data.paymentMethod.size() <= 50 &&
+             data.status is string && (data.status == 'COMPLETED' || data.status == 'PENDING' || data.status == 'FAILED') &&
+             data.referenceId is string && data.referenceId.size() >= 1 && data.referenceId.size() <= 64 &&
+             data.isDemo is bool &&
+             data.timestampMillis is int && data.timestampMillis > 0 &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function isValidExpense(data, uid) {
+      return data.ownerId is string && data.ownerId == uid &&
+             data.amountPaise is int && data.amountPaise > 0 && data.amountPaise <= 1000000000 &&
+             data.category is string && data.category.size() >= 1 && data.category.size() <= 40 &&
+             data.merchant is string && data.merchant.size() >= 1 && data.merchant.size() <= 100 &&
+             (!('note' in data) || data.note == null || (data.note is string && data.note.size() <= 200)) &&
+             data.dateMillis is int && data.dateMillis > 0 &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function isValidBudget(data, uid) {
+      return data.ownerId is string && data.ownerId == uid &&
+             data.category is string && data.category.size() >= 1 && data.category.size() <= 40 &&
+             data.limitPaise is int && data.limitPaise > 0 && data.limitPaise <= 1000000000 &&
+             data.monthYear is string && data.monthYear.size() >= 4 && data.monthYear.size() <= 20 &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    match /users/{userId} {
+      allow get: if isSignedIn() && isValidId(userId) && request.auth.uid == userId;
+      allow list: if isSignedIn() && request.auth.uid == userId && resource.data.userId == request.auth.uid;
+
+      allow create: if isSignedIn() &&
+                       isValidId(userId) &&
+                       request.auth.uid == userId &&
+                       incoming().keys().hasAll(['userId', 'displayName', 'email', 'upiHandle', 'demoBalancePaise', 'currency', 'createdAt', 'updatedAt']) &&
+                       incoming().keys().hasOnly(['userId', 'displayName', 'email', 'upiHandle', 'demoBalancePaise', 'currency', 'createdAt', 'updatedAt']) &&
+                       isValidUserProfile(incoming(), userId);
+
+      allow update: if isSignedIn() &&
+                       isValidId(userId) &&
+                       request.auth.uid == userId &&
+                       isValidUserProfile(incoming(), userId) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt &&
+                       incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'email', 'upiHandle', 'demoBalancePaise', 'updatedAt']);
+
+      allow delete: if isSignedIn() && isValidId(userId) && request.auth.uid == userId;
+
+      match /transactions/{transactionId} {
+        allow get: if isSignedIn() && isValidId(userId) && isValidId(transactionId) && request.auth.uid == userId;
+        allow list: if isSignedIn() && request.auth.uid == userId && resource.data.ownerId == request.auth.uid;
+
+        allow create: if isSignedIn() &&
+                         isValidId(userId) &&
+                         isValidId(transactionId) &&
+                         request.auth.uid == userId &&
+                         incoming().keys().hasAll(['ownerId', 'amountPaise', 'currency', 'transactionType', 'category', 'title', 'counterparty', 'paymentMethod', 'status', 'referenceId', 'isDemo', 'timestampMillis', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['ownerId', 'amountPaise', 'currency', 'transactionType', 'category', 'title', 'counterparty', 'description', 'paymentMethod', 'status', 'referenceId', 'isDemo', 'timestampMillis', 'createdAt', 'updatedAt']) &&
+                         isValidTransaction(incoming(), userId);
+
+        allow update: if isSignedIn() &&
+                         isValidId(userId) &&
+                         isValidId(transactionId) &&
+                         request.auth.uid == userId &&
+                         isValidTransaction(incoming(), userId) &&
+                         existing().status != 'COMPLETED' &&
+                         incoming().ownerId == existing().ownerId &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().amountPaise == existing().amountPaise &&
+                         incoming().diff(existing()).affectedKeys().hasOnly(['status', 'description', 'updatedAt']);
+
+        allow delete: if isSignedIn() && isValidId(userId) && isValidId(transactionId) && request.auth.uid == userId;
+      }
+
+      match /expenses/{expenseId} {
+        allow get: if isSignedIn() && isValidId(userId) && isValidId(expenseId) && request.auth.uid == userId;
+        allow list: if isSignedIn() && request.auth.uid == userId && resource.data.ownerId == request.auth.uid;
+
+        allow create: if isSignedIn() &&
+                         isValidId(userId) &&
+                         isValidId(expenseId) &&
+                         request.auth.uid == userId &&
+                         incoming().keys().hasAll(['ownerId', 'amountPaise', 'category', 'merchant', 'dateMillis', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['ownerId', 'amountPaise', 'category', 'merchant', 'note', 'dateMillis', 'createdAt', 'updatedAt']) &&
+                         isValidExpense(incoming(), userId);
+
+        allow update: if isSignedIn() &&
+                         isValidId(userId) &&
+                         isValidId(expenseId) &&
+                         request.auth.uid == userId &&
+                         isValidExpense(incoming(), userId) &&
+                         incoming().ownerId == existing().ownerId &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().diff(existing()).affectedKeys().hasOnly(['amountPaise', 'category', 'merchant', 'note', 'dateMillis', 'updatedAt']);
+
+        allow delete: if isSignedIn() && isValidId(userId) && isValidId(expenseId) && request.auth.uid == userId;
+      }
+
+      match /budgets/{budgetId} {
+        allow get: if isSignedIn() && isValidId(userId) && isValidId(budgetId) && request.auth.uid == userId;
+        allow list: if isSignedIn() && request.auth.uid == userId && resource.data.ownerId == request.auth.uid;
+
+        allow create: if isSignedIn() &&
+                         isValidId(userId) &&
+                         isValidId(budgetId) &&
+                         request.auth.uid == userId &&
+                         incoming().keys().hasAll(['ownerId', 'category', 'limitPaise', 'monthYear', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['ownerId', 'category', 'limitPaise', 'monthYear', 'createdAt', 'updatedAt']) &&
+                         isValidBudget(incoming(), userId);
+
+        allow update: if isSignedIn() &&
+                         isValidId(userId) &&
+                         isValidId(budgetId) &&
+                         request.auth.uid == userId &&
+                         isValidBudget(incoming(), userId) &&
+                         incoming().ownerId == existing().ownerId &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().diff(existing()).affectedKeys().hasOnly(['category', 'limitPaise', 'monthYear', 'updatedAt']);
+
+        allow delete: if isSignedIn() && isValidId(userId) && isValidId(budgetId) && request.auth.uid == userId;
+      }
+    }
+  }
+}

@@ -1,0 +1,261 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated user profile and simulated demo wallet metadata.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the account owner."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Full display name of the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address."
+        },
+        "upiHandle": {
+          "type": "string",
+          "description": "Demo UPI handle for simulated transfers."
+        },
+        "demoBalancePaise": {
+          "type": "integer",
+          "description": "Simulated demo wallet balance in paise (never authoritative real money)."
+        },
+        "currency": {
+          "type": "string",
+          "enum": ["INR"],
+          "description": "Primary wallet currency code."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the profile was created via FieldValue.serverTimestamp()."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the profile was last updated via FieldValue.serverTimestamp()."
+        }
+      },
+      "required": [
+        "userId",
+        "displayName",
+        "email",
+        "upiHandle",
+        "demoBalancePaise",
+        "currency",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "TransactionRecord": {
+      "title": "TransactionRecord",
+      "description": "Simulated or verified wallet transaction record stored in paise.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "description": "UID of the user who owns this transaction record."
+        },
+        "amountPaise": {
+          "type": "integer",
+          "description": "Positive monetary amount in paise."
+        },
+        "currency": {
+          "type": "string",
+          "enum": ["INR"],
+          "description": "Currency code."
+        },
+        "transactionType": {
+          "type": "string",
+          "enum": ["CREDIT", "DEBIT", "REFUND"],
+          "description": "Direction of money movement."
+        },
+        "category": {
+          "type": "string",
+          "description": "Transaction category."
+        },
+        "title": {
+          "type": "string",
+          "description": "Merchant or counterparty display title."
+        },
+        "counterparty": {
+          "type": "string",
+          "description": "Recipient or sender identifier (e.g., UPI ID or bank name)."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional user note or transaction description."
+        },
+        "paymentMethod": {
+          "type": "string",
+          "description": "Payment rail used (UPI, Debit Card, Net Banking, Wallet)."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["COMPLETED", "PENDING", "FAILED"],
+          "description": "Execution status of the transaction."
+        },
+        "referenceId": {
+          "type": "string",
+          "description": "Unique reference identifier (e.g., #TXN123456789)."
+        },
+        "isDemo": {
+          "type": "boolean",
+          "description": "True when transaction is a simulated demo transaction."
+        },
+        "timestampMillis": {
+          "type": "integer",
+          "description": "Epoch milliseconds for chronological sorting."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp via FieldValue.serverTimestamp()."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server update timestamp via FieldValue.serverTimestamp()."
+        }
+      },
+      "required": [
+        "ownerId",
+        "amountPaise",
+        "currency",
+        "transactionType",
+        "category",
+        "title",
+        "counterparty",
+        "paymentMethod",
+        "status",
+        "referenceId",
+        "isDemo",
+        "timestampMillis",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ExpenseRecord": {
+      "title": "ExpenseRecord",
+      "description": "Manually tracked personal expense separate from wallet ledger events.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "description": "UID of the user who owns this expense record."
+        },
+        "amountPaise": {
+          "type": "integer",
+          "description": "Expense amount in paise."
+        },
+        "category": {
+          "type": "string",
+          "description": "Expense category (Food, Shopping, Transport, Bills, Entertainment, etc.)."
+        },
+        "merchant": {
+          "type": "string",
+          "description": "Merchant or expense title."
+        },
+        "note": {
+          "type": "string",
+          "description": "Optional note about the expense."
+        },
+        "dateMillis": {
+          "type": "integer",
+          "description": "Epoch milliseconds when the expense occurred."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp via FieldValue.serverTimestamp()."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server update timestamp via FieldValue.serverTimestamp()."
+        }
+      },
+      "required": [
+        "ownerId",
+        "amountPaise",
+        "category",
+        "merchant",
+        "dateMillis",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "BudgetRecord": {
+      "title": "BudgetRecord",
+      "description": "Monthly category spending budget in paise.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "description": "UID of the user who owns this budget."
+        },
+        "category": {
+          "type": "string",
+          "description": "Category name for the budget."
+        },
+        "limitPaise": {
+          "type": "integer",
+          "description": "Monthly spending limit in paise."
+        },
+        "monthYear": {
+          "type": "string",
+          "description": "Target month-year identifier (e.g., 2026-10)."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp via FieldValue.serverTimestamp()."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server update timestamp via FieldValue.serverTimestamp()."
+        }
+      },
+      "required": [
+        "ownerId",
+        "category",
+        "limitPaise",
+        "monthYear",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/UserProfile"
+      },
+      "description": "Per-user profile and demo balance metadata."
+    },
+    "/users/{userId}/transactions/{transactionId}": {
+      "schema": {
+        "$ref": "#/entities/TransactionRecord"
+      },
+      "description": "Per-user wallet transactions subcollection."
+    },
+    "/users/{userId}/expenses/{expenseId}": {
+      "schema": {
+        "$ref": "#/entities/ExpenseRecord"
+      },
+      "description": "Per-user manual expense records subcollection."
+    },
+    "/users/{userId}/budgets/{budgetId}": {
+      "schema": {
+        "$ref": "#/entities/BudgetRecord"
+      },
+      "description": "Per-user monthly category budgets subcollection."
+    }
+  }
+}

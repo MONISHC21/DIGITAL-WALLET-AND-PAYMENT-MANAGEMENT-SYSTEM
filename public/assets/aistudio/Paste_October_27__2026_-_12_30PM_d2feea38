@@ -1,0 +1,1137 @@
+# 🚀 PROJECT: DIGIWALLET
+## ULTRA MASTER PROMPT — PREMIUM FINTECH ANDROID APPLICATION
+
+### ROLE AND EXPECTATIONS
+
+Act as a world-class fintech product designer, senior Android engineer, mobile application architect, UX researcher, security engineer, and QA automation engineer.
+
+Your task is to BUILD a complete, polished, production-minded Android application called **DigiWallet — Smart Digital Wallet & Payment Management**.
+
+Do not treat this as a simple college assignment.
+
+Treat it as a serious fintech product with a sophisticated visual identity, excellent user experience, intuitive financial workflows, reliable data handling, secure architecture, and a maintainable codebase.
+
+You must work directly with the existing Android Studio project whenever your environment supports file editing.
+
+Do not merely explain how to build the application. Implement it incrementally, verify your changes, and help me run the application successfully.
+
+If an existing implementation is present, inspect it before modifying anything. Preserve working functionality and avoid unnecessary rewrites.
+
+If a requested capability requires an external service, credentials, backend infrastructure, or manual configuration, implement what is possible and clearly explain the remaining setup.
+
+---
+
+# 1. PRODUCT VISION
+
+Build DigiWallet as a modern personal finance companion that brings wallet management, payments, transaction tracking, expense analysis, and financial planning together in one intuitive Android application.
+
+The application should communicate:
+
+- Trust
+- Financial clarity
+- Security
+- Simplicity
+- Premium quality
+- Speed
+- Accessibility
+- Intelligence
+
+The user should immediately understand their available demo balance, recent activity, spending habits, and next available actions.
+
+Every screen must have a clear purpose.
+
+Every interaction must provide meaningful feedback.
+
+Every major workflow must have loading, success, empty, and error states where appropriate.
+
+Avoid generic templates, cluttered dashboards, excessive gradients, unnecessary decoration, and inconsistent design patterns.
+
+The final experience should feel like a carefully designed fintech product.
+
+Application name: DigiWallet
+
+Suggested tagline: Your Money. Your Control.
+
+Target platform: Android.
+
+Primary market: India.
+
+Primary currency: INR (₹).
+
+Languages: English initially, with an architecture that supports additional Indian languages.
+
+---
+
+# 2. REQUIRED TECHNOLOGY STACK
+
+Use the following technologies unless the existing project requires a compatible alternative.
+
+Android:
+- Kotlin
+- Jetpack Compose
+- Material 3
+- Navigation Compose
+- ViewModel
+- StateFlow
+- Kotlin Coroutines
+- Repository pattern
+- MVVM architecture
+
+Persistence:
+- Room Database for local data
+- Cloud Firestore for cloud-synchronized user and transaction data
+- Firebase Authentication for user accounts
+
+Networking and integrations:
+- Retrofit and OkHttp if API communication is needed
+- Kotlin serialization or another consistent serialization solution
+- A secure backend API for trusted financial operations
+- A supported payment provider for optional real payment integration
+
+Additional capabilities:
+- Android biometric authentication APIs where supported
+- CameraX or ML Kit Barcode Scanning for QR workflows
+- A maintained charting solution compatible with Jetpack Compose
+- WorkManager for appropriate background tasks
+
+Build system:
+- Use the project's existing compatible Gradle configuration.
+- Select mutually compatible stable dependency versions.
+- Avoid obsolete APIs and unnecessary libraries.
+- Do not blindly replace the Kotlin, AGP, Gradle, or Compose versions.
+- Follow the official setup instructions for third-party SDKs.
+
+Do not add dependencies without a clear purpose.
+
+If a dependency cannot be resolved, investigate the actual error before replacing it.
+
+---
+
+# 3. PREMIUM VISUAL DESIGN SYSTEM
+
+Create a cohesive design system before implementing the screens.
+
+## Visual direction
+
+Use a premium contemporary fintech aesthetic inspired by excellent mobile banking, personal finance, and digital payment experiences.
+
+The application must have its own identity rather than copying another product.
+
+Design characteristics:
+- Sophisticated typography
+- Excellent visual hierarchy
+- Generous spacing
+- Clean layouts
+- Subtle shadows
+- Refined cards
+- Consistent corner radii
+- Carefully balanced negative space
+- Meaningful icons
+- Smooth transitions
+- High-quality empty states
+- Restrained use of gradients
+- Clear financial information
+
+## Suggested color palette
+
+Primary background:
+#F6F7FB
+
+Primary surface:
+#FFFFFF
+
+Primary brand:
+#5146E5
+
+Secondary brand:
+#7768F8
+
+Primary text:
+#171923
+
+Secondary text:
+#737789
+
+Success:
+#16845B
+
+Error:
+#D93B45
+
+Warning:
+#C77D12
+
+Dark background:
+#10121B
+
+Dark surface:
+#191C29
+
+Dark elevated surface:
+#232738
+
+Dark primary text:
+#F5F6FA
+
+Dark secondary text:
+#A6AABD
+
+Use these as initial design tokens. Adjust them where necessary to maintain accessible contrast and visual consistency.
+
+## Typography
+
+Establish a consistent typography scale:
+
+- Display: major wallet balance
+- Headline: screen titles
+- Title: card headings
+- Body: transaction descriptions
+- Label: button text and metadata
+- Caption: dates, secondary details, and supporting information
+
+Use appropriate font weights and line heights.
+
+Do not make all text bold.
+
+Make monetary values easy to scan.
+
+## Spacing
+
+Use a consistent spacing system based on 4dp increments.
+
+Use approximately:
+- 4dp for tiny internal spacing
+- 8dp for closely related elements
+- 12dp for compact component spacing
+- 16dp for standard padding
+- 20dp for screen sections
+- 24dp for major card padding
+- 32dp for larger section separation
+
+Adapt these values where the design requires it.
+
+## Shape system
+
+Define reusable shapes for:
+- Small chips
+- Buttons
+- Input fields
+- Transaction icons
+- Standard cards
+- Featured cards
+- Bottom sheets
+- Dialogs
+
+Avoid giving every element the same excessive corner radius.
+
+## Iconography
+
+Use a consistent icon family.
+
+Prefer clean vector icons rather than emojis.
+
+Never use emojis as substitutes for financial interface icons.
+
+## Design tokens
+
+Create reusable color, typography, spacing, and shape definitions.
+
+Avoid scattering hardcoded styling values throughout composables.
+
+Support light and dark themes.
+
+Ensure that financial information remains legible in both themes.
+
+---
+
+# 4. COMPLETE APPLICATION SCREEN INVENTORY
+
+Implement these screens using a consistent navigation system.
+
+## A. Splash and onboarding
+
+1. Splash screen
+2. Welcome screen
+3. Feature introduction
+4. Login
+5. Registration
+6. Forgot password
+7. Email verification or other required authentication states
+
+The splash screen should be lightweight and should not unnecessarily delay the user.
+
+Onboarding must be skippable where appropriate.
+
+Do not force users through repeated introductions.
+
+## B. Home dashboard
+
+The dashboard is the application's most important screen.
+
+Design a highly polished home screen containing:
+
+Header:
+- Personalized greeting
+- User avatar
+- Notification button
+
+Wallet balance card:
+- Demo wallet balance
+- Currency indicator
+- Hide/show balance control
+- Appropriate demo-mode indicator
+- Balance visibility animation
+
+Quick actions:
+- Add Money
+- Send Money
+- Scan QR
+- Pay Bills
+
+Financial overview:
+- Total income
+- Total expenditure
+- Monthly savings or net cash flow
+
+Transaction section:
+- Recent transactions
+- Category icons
+- Amounts
+- Dates
+- Transaction status
+- View All action
+
+Insights:
+- Spending summary
+- Budget progress
+- Monthly comparison
+- Relevant financial observations
+
+The layout must remain clean and readable on smaller Android phones.
+
+Do not overcrowd the dashboard.
+
+Prioritize information using a clear hierarchy.
+
+## C. Wallet screen
+
+Provide:
+- Wallet overview
+- Available demo balance
+- Wallet activity
+- Transaction summaries
+- Wallet-related settings
+- Clear distinction between demo funds and actual funds
+
+Never imply that simulated money is available for real spending.
+
+## D. Add Money screen
+
+Implement:
+- Amount input
+- Preset amount buttons
+- Numeric keypad where appropriate
+- Amount validation
+- Payment method selection interface
+- Confirmation screen
+- Processing state
+- Success screen
+- Failure screen
+- Transaction receipt
+
+For demo mode, clearly simulate the operation.
+
+For real payment mode, use a supported provider and a trusted backend.
+
+Never treat a locally generated success state as proof of an actual payment.
+
+## E. Send Money screen
+
+Implement:
+- Recipient selection
+- Recent demo recipients
+- Recipient identifier entry
+- Amount entry
+- Optional description
+- Review transfer screen
+- Confirmation
+- Processing state
+- Success and failure states
+- Transfer receipt
+
+Validate all inputs.
+
+Display recipient details clearly before confirmation.
+
+Provide a way to cancel before submission.
+
+For demo transfers, update simulated data consistently.
+
+For actual transfers, do not assume that a payment gateway supports arbitrary user-to-user transfers.
+
+## F. QR payment screen
+
+Implement:
+- Camera permission flow
+- QR scanner
+- Scan frame
+- Flashlight control where supported
+- Camera error state
+- Invalid QR state
+- Parsed QR details
+- Payment review screen
+
+Validate scanned content before acting on it.
+
+Never trust a QR code simply because it contains an amount or payment address.
+
+Do not automatically execute a payment immediately after scanning.
+
+Require an explicit review and confirmation step.
+
+For the initial version, support clearly labeled demo QR workflows.
+
+## G. Transaction history
+
+Create a premium transaction list with:
+- Search
+- Date filters
+- Category filters
+- Income and expense filters
+- Status filters
+- Transaction type indicators
+- Empty state
+- Loading state
+- Error state
+
+Each transaction should have:
+- Description
+- Amount
+- Date and time
+- Category
+- Transaction identifier
+- Status
+
+Selecting a transaction must open a detailed receipt screen.
+
+Support appropriate sorting and pagination when the dataset becomes large.
+
+## H. Transaction details
+
+Display:
+- Transaction amount
+- Transaction type
+- Current status
+- Transaction identifier
+- Date and time
+- Recipient or merchant description
+- Category
+- Payment method metadata where applicable
+- Receipt-sharing action where appropriate
+
+Never expose sensitive credentials or private payment information in receipts.
+
+## I. Expense management
+
+Provide:
+- Add expense
+- Edit eligible expense records
+- Delete eligible expense records
+- Category selection
+- Notes
+- Date selection
+- Search and filtering
+- Monthly summaries
+
+Include categories such as:
+- Food
+- Shopping
+- Transport
+- Education
+- Entertainment
+- Healthcare
+- Bills
+- Travel
+- Other
+
+Keep expense records separate from verified payment events.
+
+Clearly distinguish manually entered expenses from imported or verified financial transactions.
+
+## J. Budget management
+
+Implement:
+- Create budget
+- Edit budget
+- Select category
+- Set spending limit
+- Choose monthly period
+- Display current spending
+- Remaining budget
+- Progress indicator
+- Approaching-limit warning
+- Exceeded-budget state
+
+Calculate progress accurately.
+
+Avoid negative remaining-budget displays without explaining overspending.
+
+## K. Financial analytics
+
+Create a visually polished financial insights dashboard.
+
+Include:
+- Income versus expenses
+- Category-wise expenditure
+- Weekly spending
+- Monthly spending
+- Savings or net cash flow
+- Budget utilization
+- Spending trends
+
+Use clear chart labels, appropriate legends, and readable currency formatting.
+
+Charts must be based on actual stored application records.
+
+Do not fabricate financial insights.
+
+When there is insufficient data, show a useful empty state rather than a misleading chart.
+
+## L. Notifications
+
+Support:
+- In-app notification history
+- Budget warnings
+- Demo transaction notifications
+- Payment status notifications where supported
+- Read/unread state
+
+Do not promise real-time notifications until the relevant backend or notification service is configured.
+
+## M. Profile and settings
+
+Include:
+- Name
+- Email
+- Profile image
+- Edit profile
+- Theme selection
+- Notification preferences
+- Currency formatting preferences
+- Privacy information
+- Security settings
+- Logout
+- Account deletion workflow where supported
+
+Ask for confirmation before destructive actions.
+
+---
+
+# 5. NAVIGATION AND USER EXPERIENCE
+
+Use a coherent navigation system.
+
+Recommended primary destinations:
+
+1. Home
+2. Wallet
+3. Activity
+4. Insights
+5. Profile
+
+Choose a layout that accommodates these destinations without making the bottom bar crowded.
+
+You may use a more compact navigation arrangement if it improves usability.
+
+Navigation requirements:
+- Correct back-button behavior
+- Preserved state when appropriate
+- No duplicate destination stacks
+- Authentication-aware navigation
+- Loading and error handling
+- Deep-link-ready architecture where useful
+
+Do not navigate to the dashboard before authentication when authentication is required.
+
+Support guest/demo mode when configured.
+
+Every primary action must lead to a functional screen.
+
+Do not create buttons that do nothing.
+
+## Interaction quality
+
+Implement:
+- Press feedback
+- Appropriate ripple effects
+- Smooth but restrained animations
+- Animated balance visibility
+- Loading indicators
+- Form validation
+- Inline error messages
+- Snackbar feedback
+- Confirmation dialogs
+- Bottom sheets when useful
+- Success and failure states
+
+Avoid excessive animation that slows down financial tasks.
+
+Respect reduced-motion and accessibility considerations where practical.
+
+## Empty states
+
+Provide designed empty states for:
+- No transactions
+- No expenses
+- No budgets
+- No notifications
+- No analytics data
+
+Every empty state should explain the situation and provide a relevant next action.
+
+---
+
+# 6. DATA MODELS AND FINANCIAL CORRECTNESS
+
+Create consistent data models.
+
+Suggested entities:
+
+UserProfile
+WalletMetadata
+Transaction
+Expense
+Budget
+NotificationRecord
+DemoRecipient
+
+Transaction fields should include:
+- id
+- ownerId
+- amountPaise
+- currency
+- transactionType
+- category
+- description
+- status
+- createdAt
+- updatedAt
+- referenceId where appropriate
+
+Use Long integer values for monetary amounts in paise.
+
+Do not use Float or Double for authoritative monetary calculations.
+
+Format monetary values using appropriate locale-aware currency formatting.
+
+Keep currency and transaction type explicit.
+
+Establish a consistent convention for:
+- Credits
+- Debits
+- Refunds
+- Reversals
+- Pending transactions
+- Failed transactions
+
+Do not count failed or cancelled transactions as completed expenditure.
+
+Avoid double-counting refunds.
+
+Use appropriate date and time handling.
+
+Handle large amounts, invalid input, and boundary conditions.
+
+Use database transactions or atomic backend operations where required.
+
+Do not calculate trusted balances by simply trusting client-side values.
+
+---
+
+# 7. DATABASE ARCHITECTURE
+
+Use Room for local persistence and Firestore for appropriate cloud data.
+
+Suggested project structure:
+
+app/src/main/java/com/monish/digiwallet/
+
+data/
+    model/
+    local/
+    remote/
+    repository/
+
+domain/
+    model/
+    usecase/
+
+ui/
+    components/
+    navigation/
+    screens/
+    theme/
+
+viewmodel/
+
+di/
+
+utils/
+
+Organize the code according to actual project requirements.
+
+Do not create unnecessary abstraction layers merely to increase the number of files.
+
+## Room
+
+Implement:
+- Entities
+- DAOs
+- Database
+- Repository integration
+- Database migrations when the schema changes
+- Appropriate indexing
+- Stable local transaction persistence
+
+## Firebase
+
+Implement:
+- Authentication integration
+- User profile storage
+- Appropriate transaction metadata
+- Repository operations
+- Loading and error states
+- Security rules
+
+Do not store a user-editable wallet balance as an authoritative financial balance.
+
+## Synchronization
+
+Design a clear strategy for local and cloud data.
+
+Handle:
+- Offline access
+- Retry behavior
+- Duplicate records
+- Synchronization conflicts
+- Server timestamps
+- Deleted or updated expense records
+
+Do not silently overwrite newer trusted data with stale local state.
+
+---
+
+# 8. TRUSTED PAYMENT ARCHITECTURE
+
+Separate the following concepts:
+
+1. Local expense records
+2. Demo wallet operations
+3. Payment provider events
+4. Verified financial transactions
+5. Authoritative wallet ledger entries
+
+These concepts are not interchangeable.
+
+## Demo mode
+
+Implement a complete, usable demo environment.
+
+Features:
+- Clearly marked simulated balance
+- Seeded example transactions
+- Demo recipients
+- Simulated deposits
+- Simulated transfers
+- Demo transaction history
+- Reset-demo-data option
+
+Never claim that demo funds are real.
+
+Prevent demo operations from being mistaken for real payment confirmations.
+
+## Real payment preparation
+
+Create a clean abstraction for future payment integration.
+
+A suitable interface may be:
+
+PaymentRepository
+
+Responsibilities:
+- Request a payment order from the backend
+- Start the supported provider checkout flow
+- Submit the provider result for verification
+- Retrieve the verified payment status
+- Display the authoritative result
+
+The trusted backend must:
+- Authenticate the requesting user
+- Validate the requested amount
+- Create payment orders using provider credentials
+- Verify payment signatures according to provider documentation
+- Validate webhook authenticity
+- Process duplicate events idempotently
+- Maintain transaction records
+- Reconcile payment status
+- Enforce authorization
+- Record relevant audit events
+
+Never place secret API keys in Android source code, resources, or build configurations distributed to users.
+
+Do not assume that a payment SDK provides a regulated stored-value wallet.
+
+Do not implement UPI transfers by changing Firestore balances.
+
+Do not collect UPI PINs, OTPs, CVVs, or payment credentials directly.
+
+Do not claim regulatory compliance without the required legal, technical, and operational review.
+
+---
+
+# 9. SECURITY AND PRIVACY
+
+Treat all client-side data as potentially modifiable.
+
+Implement appropriate:
+- Authentication checks
+- Authorization checks
+- Firestore security rules
+- Input validation
+- Error handling
+- Secure network communication
+- Session handling
+- Privacy-conscious logging
+- Local data protection
+- Biometric reauthentication where appropriate
+
+Never log passwords, OTPs, access tokens, payment secrets, or complete sensitive payment credentials.
+
+Do not embed backend secrets in the APK.
+
+Do not rely on hiding a button as an authorization mechanism.
+
+Perform trusted financial validations on the backend.
+
+Use server-side authorization for operations involving real payments.
+
+For sensitive operations, require an appropriate confirmation or reauthentication mechanism.
+
+Explain any security limitations that remain.
+
+---
+
+# 10. PERFORMANCE AND ACCESSIBILITY
+
+The application should run smoothly on ordinary Android devices.
+
+Requirements:
+- Efficient Compose recomposition
+- LazyColumn for long lists
+- Stable keys for list items
+- Avoid unnecessary database queries
+- Background execution for suitable operations
+- Efficient image loading
+- No blocking operations on the main thread
+- Proper lifecycle-aware collection of flows
+- Correct loading-state management
+
+Accessibility:
+- Meaningful content descriptions
+- Screen-reader-friendly controls
+- Appropriate touch target sizes
+- Accessible color contrast
+- Scalable text
+- Clear field labels
+- Errors that are understandable without relying on color alone
+- Logical focus and navigation order
+
+Handle small screens and different display sizes.
+
+---
+
+# 11. ERROR HANDLING
+
+Handle the following situations gracefully:
+
+- No internet connection
+- Firebase not configured
+- Authentication failure
+- Expired session
+- Invalid amount
+- Insufficient simulated balance
+- Missing recipient
+- Duplicate submission
+- Database failure
+- Camera permission denied
+- Invalid QR code
+- Payment pending
+- Payment failed
+- Payment cancelled
+- Backend unavailable
+- Empty transaction list
+- Unexpected API response
+
+Never display a successful payment receipt when the payment has not been verified.
+
+Show actionable messages instead of raw exception traces.
+
+Keep sensitive debugging information out of the production UI.
+
+---
+
+# 12. TESTING REQUIREMENTS
+
+Write meaningful tests for:
+- Monetary formatting
+- Amount validation
+- Transaction classification
+- Income and expense calculations
+- Refund handling
+- Budget progress
+- Repository behavior
+- ViewModel state transitions
+- Authentication-related state handling
+- Demo transfer validation
+
+Add UI tests for critical journeys where practical.
+
+Test these scenarios manually or with automated tests:
+
+1. New user registration
+2. Login
+3. Logout
+4. App restart
+5. Add demo money
+6. Send demo money
+7. Insufficient demo balance
+8. Duplicate transaction submission
+9. Transaction history filtering
+10. Expense creation
+11. Budget creation
+12. Analytics with no data
+13. Offline behavior
+14. QR permission denial
+15. Failed payment state
+
+Do not claim tests have passed unless they have actually been executed.
+
+---
+
+# 13. IMPLEMENTATION STRATEGY
+
+Implement the project in controlled phases.
+
+Do not attempt to generate the entire application in one uncontrolled operation.
+
+## PHASE 1 — PROJECT INSPECTION AND FOUNDATION
+
+Inspect the existing project.
+
+Identify:
+- Package name
+- Kotlin and Gradle versions
+- Compose configuration
+- Existing dependencies
+- Current source files
+- Build errors
+
+Then implement:
+- Application theme
+- Color system
+- Typography
+- Shared components
+- Navigation shell
+- Bottom navigation
+- Home dashboard
+- Wallet balance card
+- Quick action cards
+- Recent transaction components
+- Sample demo data
+
+The dashboard must look polished and must compile.
+
+## PHASE 2 — AUTHENTICATION
+
+Implement:
+- Login
+- Registration
+- Password recovery
+- Authentication state
+- Logout
+- Firebase integration setup
+
+## PHASE 3 — DEMO WALLET
+
+Implement:
+- Demo balance
+- Add-money simulation
+- Demo transfers
+- Recipient selection
+- Transaction creation
+- Transaction details
+
+## PHASE 4 — PERSISTENCE
+
+Implement:
+- Room
+- DAOs
+- Repositories
+- Local data persistence
+- Firestore integration
+- Appropriate access rules
+
+## PHASE 5 — EXPENSES AND BUDGETS
+
+Implement:
+- Expense management
+- Categories
+- Budgets
+- Spending summaries
+- Monthly calculations
+
+## PHASE 6 — ANALYTICS
+
+Implement:
+- Charts
+- Spending trends
+- Category breakdown
+- Budget utilization
+- Meaningful insights based on actual records
+
+## PHASE 7 — QR AND PAYMENT PREPARATION
+
+Implement:
+- QR scanning
+- QR parsing
+- Confirmation flow
+- Payment abstraction
+- Backend integration points
+- Provider setup instructions
+
+## PHASE 8 — FINAL POLISH
+
+Implement:
+- Dark theme
+- Animations
+- Accessibility improvements
+- Error states
+- Performance improvements
+- Tests
+- Final build verification
+
+---
+
+# 14. STRICT DEVELOPMENT RULES
+
+Follow these rules throughout the project.
+
+RULE 1:
+Inspect the actual project before changing files.
+
+RULE 2:
+Use project-aware editing when available.
+
+RULE 3:
+Never overwrite working files without understanding their current contents.
+
+RULE 4:
+Implement complete features, not disconnected snippets.
+
+RULE 5:
+Keep UI, business logic, and data access appropriately separated.
+
+RULE 6:
+Do not use hardcoded demo values as if they were live financial data.
+
+RULE 7:
+Make every visible primary button functional.
+
+RULE 8:
+Do not invent successful authentication or payment results.
+
+RULE 9:
+Do not silently swallow exceptions.
+
+RULE 10:
+Do not disable compiler checks or remove dependencies just to hide an error.
+
+RULE 11:
+Do not introduce deprecated APIs without a justified compatibility reason.
+
+RULE 12:
+Do not claim a build or test succeeded unless it was actually verified.
+
+RULE 13:
+When a dependency or Firebase configuration is missing, explain exactly what is required.
+
+RULE 14:
+After every phase, summarize:
+- Files created
+- Files modified
+- Features implemented
+- Dependencies added
+- Configuration still required
+- Tests executed
+- Remaining issues
+
+RULE 15:
+Keep the application runnable at every major milestone.
+
+RULE 16:
+When a build fails, inspect the real error, identify the root cause, and fix it before continuing.
+
+RULE 17:
+Use clear, maintainable Kotlin and avoid unnecessarily complex implementations.
+
+RULE 18:
+Never expose real user credentials, API secrets, or sensitive financial data.
+
+RULE 19:
+Keep demo and real payment modes clearly separated.
+
+RULE 20:
+Prioritize correctness, security, usability, and maintainability over the number of features.
+
+---
+
+# 15. DEFINITION OF DONE
+
+The project is not complete merely because the screens exist.
+
+The initial application milestone is complete only when:
+- The project compiles
+- The app launches
+- The dashboard renders correctly
+- Navigation works
+- The interface adapts to different screen sizes
+- Demo data is clearly identified
+- Empty and error states are present
+- The architecture is understandable
+- No major screen is an unimplemented placeholder
+
+The broader application is complete only when its implemented features have been tested and the remaining external service requirements are documented.
+
+---
+
+# FINAL COMMAND
+
+Begin by inspecting the currently open Android Studio project.
+
+Do not immediately generate every screen.
+
+Start with PHASE 1.
+
+First inspect the project's actual files and configuration.
+
+Then implement a premium DigiWallet design system and a complete, visually polished home dashboard with working navigation and clearly labeled demo data.
+
+Use actual project files wherever possible.
+
+After implementation, inspect the changes, run the available build or verification tasks if your environment permits, and fix any errors you can verify.
+
+If you cannot execute a build, state that clearly and provide the exact steps I should follow.
+
+When Phase 1 is complete, report the results and wait for me to confirm before beginning Phase 2.
+
+Your objective is to build a genuinely usable, visually impressive, maintainable Android fintech application—not merely produce code that looks convincing in a chat response.
